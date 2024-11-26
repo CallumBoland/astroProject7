@@ -47,6 +47,32 @@ class communicationandobdh:
 
 totalcomms = communicationandobdh(0.675, 0.6, 5.55)
 
+@dataclass
+class power:
+    mass: float #kg
+    volume: float #Units
+    power: float #W
+
+pcds = power(3.3,4.5,10)
+
+@dataclass
+class thermalcontrol:
+    power: float
+    
+patchheater = thermalcontrol(5)
+
+@dataclass
+class payload:
+    mass: float   #kg
+    volume: float #Units
+    power: float  #W
+    
+diagnosticcamera = payload(3.3, 4.5, 10)
+boomdriveandgear = payload(0, 0, 2)
+payloadtotal = payload(diagnosticcamera.mass, diagnosticcamera.volume, diagnosticcamera.mass+boomdriveandgear)
+
+
+
 
 
 cubesats = [cubesat(12,2.72,4000),    #12U
@@ -85,8 +111,3 @@ attitudecontrolsystems = [acs.reactionwheel, #kinda obvious
                           acs.startracker,
                           acs.sunsensor,
                           acs.inertialmeasurementunit,]
-
-
-    
-    
-
