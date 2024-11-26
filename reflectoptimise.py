@@ -1,6 +1,6 @@
 from dataclasses import dataclass
 import scipy
-import numpy
+import numpy as np
 
 @dataclass
 class cubesat:
@@ -54,6 +54,10 @@ class power:
     power: float #W
 
 pcds = power(3.3,4.5,10)
+battery = power(0.67,0.5,0)
+def solarcalc(n):
+    return power(0.135*n,0.3*n,9*n)
+
 
 @dataclass
 class thermalcontrol:
@@ -69,7 +73,7 @@ class payload:
     
 diagnosticcamera = payload(3.3, 4.5, 10)
 boomdriveandgear = payload(0, 0, 2)
-payloadtotal = payload(diagnosticcamera.mass, diagnosticcamera.volume, diagnosticcamera.mass+boomdriveandgear)
+payloadtotal = payload(diagnosticcamera.mass, diagnosticcamera.volume, diagnosticcamera.power+boomdriveandgear.power)
 
 
 
@@ -89,21 +93,21 @@ lauchvehicles = [launchvehicle(800,6000),    #SpaceX Rideshare
                 launchvehicle(2000,19000),   #Vega
                 launchvehicle(300,24000)]    #Electron
 
-mirrors = [launchvehicle(5, 	25, 	19.6,	2.09,	2.0),#see first value
-           launchvehicle(6, 	36, 	28.3,	2.33,	2.5),
-           launchvehicle(7, 	49,     38.5,	2.6,	3.0),
-           launchvehicle(8, 	64,	    50.3,	2.89,	3.5),
-           launchvehicle(9, 	81,	    63.6,	3.2,	4.5),
-           launchvehicle(10,	100,	78.5,	3.54,	5.0),
-           launchvehicle(12,	144,	113.1,	4.29,	7.0),
-           launchvehicle(14,	196,	153.9,	5.12,	9.0),
-           launchvehicle(16,	256,	201.1,	6.06,	11.0),
-           launchvehicle(18,	324,	254.5,	7.1,	13.5),
-           launchvehicle(20,	400,	314.2,	8.23,	16.5),
-           launchvehicle(25,	625,	490.9,	11.47,	25.0),
-           launchvehicle(30,	900,	706.9,	15.31,	35.0),
-           launchvehicle(35,	1225,	962.1,	19.76,	47.0),
-           launchvehicle(40,	1600,	1256.6,	24.8,	60.5)]
+mirrors = [mirror(5, 	25, 	19.6,	2.09,	2.0),#see first value
+           mirror(6, 	36, 	28.3,	2.33,	2.5),
+           mirror(7, 	49,     38.5,	2.6,	3.0),
+           mirror(8, 	64,	    50.3,	2.89,	3.5),
+           mirror(9, 	81,	    63.6,	3.2,	4.5),
+           mirror(10,	100,	78.5,	3.54,	5.0),
+           mirror(12,	144,	113.1,	4.29,	7.0),
+           mirror(14,	196,	153.9,	5.12,	9.0),
+           mirror(16,	256,	201.1,	6.06,	11.0),
+           mirror(18,	324,	254.5,	7.1,	13.5),
+           mirror(20,	400,	314.2,	8.23,	16.5),
+           mirror(25,	625,	490.9,	11.47,	25.0),
+           mirror(30,	900,	706.9,	15.31,	35.0),
+           mirror(35,	1225,	962.1,	19.76,	47.0),
+           mirror(40,	1600,	1256.6,	24.8,	60.5)]
 
 attitudecontrolsystems = [acs.reactionwheel, #kinda obvious
                           acs.magnetorquersystem,
@@ -111,3 +115,28 @@ attitudecontrolsystems = [acs.reactionwheel, #kinda obvious
                           acs.startracker,
                           acs.sunsensor,
                           acs.inertialmeasurementunit,]
+
+
+##actual code
+
+
+
+
+
+
+
+
+def calcorbitalperiod(altitude): #returns period
+    G = 6.67 * 10 ** -11
+    M = 5.972 * 10 ** 24 #kg
+    rad_earth = 6.38 * 10 ** 6
+    r = altitude + rad_earth
+    T = 2 * np.pi * (r ** 3 / (G * M)) ** 0.5 #seconds
+    return(T)
+
+
+
+
+
+    
+
