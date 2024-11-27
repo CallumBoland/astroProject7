@@ -134,6 +134,24 @@ def calcorbitalperiod(altitude): #returns period
     T = 2 * np.pi * (r ** 3 / (G * M)) ** 0.5 #seconds
     return(T)
 
+#A_im equation
+def A_im():
+    ms = [5,6,7,8,9,10,12,14,16,18,20,25,30,35,40,50]
+    A_im = [np.pi/np.sin(np.pi/2) * ((100000*np.tan(0.00923))**2 + (m*np.cos(np.pi/4))**2/4) for m in ms]
+    plt.plot(A_im,ms)
+    plt.show()
+
+#E_T equation
+def E_T():
+    I_0 = 1360
+    eta = 0.25
+    N = 55000
+    T_pass = 610
+    A_M = [m.area for m in mirrors]
+    for B in A_im:
+        E_T = [I_0*eta*N*T_pass*M*2.5*10**6/B for M in A_M]
+    return E_T
+
 
 
 
